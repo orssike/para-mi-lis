@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi Reina Lis 💜</title>
+    <style>
+        :root {
+            --primary-purple: #6a1b9a;
+            --accent-purple: #9c27b0;
+            --dark-bg: #1a0633;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4a148c, #1a0633);
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 3rem;
+            text-shadow: 0 0 15px rgba(156, 39, 176, 0.8);
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Clave */
+        input[type="text"] {
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            width: 80%;
+            max-width: 300px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+        }
+
+        .btn {
+            background: var(--accent-purple);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn:hover { background: #ba68c8; transform: scale(1.05); }
+
+        /* Galería */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .gallery img {
+            width: 100%;
+            border-radius: 15px;
+            transition: transform 0.3s;
+            border: 2px solid var(--accent-purple);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .gallery img:hover { transform: scale(1.03); }
+
+        /* Reproductor */
+        .player-controls button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+        #barra {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-purple);
+            border-radius: 10px;
+            box-shadow: 0 0 10px var(--accent-purple);
+        }
+
+        /* Corazones */
+        .heart {
+            position: fixed;
+            bottom: -20px;
+            color: #d1c4e9;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+            animation: float linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        .hidden { display: none; }
+        .mensaje-texto { line-height: 1.7; text-align: justify; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Para Lis 💜</h1>
+    <p style="font-size: 1.2rem;">Ecuador 🇪🇨 y Chile 🇨🇱 unidos por siempre</p>
+
+    <div class="card" id="contador"></div>
+
+    <div class="card" id="seccion-bloqueada">
+        <h3>Mensaje Especial de tu Esposo 🔒</h3>
+        <p>Introduce la clave para desbloquear:</p>
+        <input type="text" id="pass-input" placeholder="Pista: Eres muy...">
+        <br>
+        <button class="btn" onclick="checkPass()">Abrir mi corazón</button>
+    </div>
+
+    <div class="card hidden" id="mensaje-secreto">
+        <h3>Mi Amor Por Ti 💜</h3>
+        <p class="mensaje-texto">
+            Hola mi amor, sabes... me tienes tan enamorado, que he hecho esto para ti, busco formas de expresar todo mi amor que siento por ti, y creeme que seguire buscando mas, porque tengo tanto tanto y siento tanto tanto amor por ti mi vida, que nada es suficiente para mi, quiero darte todo lo que se pueda dar y este a mi alcanza, incluso darte cosas que aun que no esten a mi alcance... te las daria igual, sabes por que? porque yo pense que tu eras inancalsable para mi.... que nunca seriamos algo, pero ahora estamos aqui, yo soy tu esposo y tu mi reina. Te amo Lis, mi Lis... TE AMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO 💜💜💜💜💜💜💜💜💜💜
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>Nuestras canciones 🎵</h3>
+        <p id="titulo-song" style="color: #ce93d8; font-style: italic;"></p>
+        <div class="player-controls">
+            <button onclick="prev()">⏮</button>
+            <button onclick="playToggle()" id="play-btn">▶️</button>
+            <button onclick="next()">⏭</button>
+        </div>
+        <div class="progress-container" onclick="jump(event)"><div id="barra"></div></div>
+    </div>
+
+    <div class="card">
+        <h3>Nuestros Momentos 🎮</h3>
+        <div class="gallery">
+            <img src="image_cd3f9e.jpg" alt="Recuerdo 1">
+            <img src="image_cd3cd0.jpg" alt="Recuerdo 2">
+            <img src="image_cd3cb1.jpg" alt="Recuerdo 3">
+            <img src="image_cd3c77.jpg" alt="Recuerdo 4">
+            <img src="image_cd3c57.jpg" alt="Recuerdo 5">
+            <img src="image_cd3c37.jpg" alt="Recuerdo 6">
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- CONTADOR ---
+    const inicio = new Date("2026-05-01"); // Cambia la fecha si es necesario
+    function updateContador() {
+        const ahora = new Date();
+        const diff = Math.floor((ahora - inicio)/(1000*60*60*24));
+        document.getElementById("contador").innerHTML = "<b>" + diff + "</b> Días Siendo El Uno Para El Otro 💜";
+    }
+    updateContador();
+
+    // --- CLAVE ---
+    function checkPass() {
+        const val = document.getElementById("pass-input").value.toLowerCase().trim();
+        if(val === "eres muy linda") {
+            document.getElementById("seccion-bloqueada").style.display = "none";
+            document.getElementById("mensaje-secreto").classList.remove("hidden");
+            alert("¡Clave correcta! Te amo mi reina 💜");
+        } else {
+            alert("Esa no es la clave... ¡Inténtalo de nuevo, preciosa!");
+        }
+    }
+
+    // --- MÚSICA ---
+    const playlist = [
+        {name: "ONLY - Lee Hi", src: "Lee Hi - ONLY.mp3"},
+        {name: "Color - Erick", src: "Color - erick.mp3"},
+        {name: "Until I Found You", src: "Stephen Sanchez - Until I Found You.mp3"},
+        {name: "Dream Girl", src: "CRISAUNT - DREAM GIRL.mp3"}
+    ];
+    let current = 0;
+    const audio = new Audio();
+    const barra = document.getElementById("barra");
+    const playBtn = document.getElementById("play-btn");
+
+    function load(idx) {
+        audio.src = playlist[idx].src;
+        document.getElementById("titulo-song").innerText = playlist[idx].name;
+    }
+
+    function playToggle() {
+        if(audio.paused) { audio.play(); playBtn.innerText = "⏸"; }
+        else { audio.pause(); playBtn.innerText = "▶️"; }
+    }
+
+    function next() { current = (current + 1) % playlist.length; load(current); audio.play(); playBtn.innerText = "⏸"; }
+    function prev() { current = (current - 1 + playlist.length) % playlist.length; load(current); audio.play(); playBtn.innerText = "⏸"; }
+
+    audio.ontimeupdate = () => {
+        if(audio.duration) {
+            const p = (audio.currentTime / audio.duration) * 100;
+            barra.style.width = p + "%";
+        }
+    };
+
+    function jump(e) {
+        const rect = e.target.getBoundingClientRect();
+        audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+    }
+
+    load(0);
+
+    // --- LLUVIA DE CORAZONES ---
+    function createHeart() {
+        const h = document.createElement("div");
+        h.classList.add("heart");
+        h.innerHTML = "💜";
+        h.style.left = Math.random() * 100 + "vw";
+        h.style.fontSize = (Math.random() * 20 + 10) + "px";
+        h.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 5000);
+    }
+    setInterval(createHeart, 500);
+</script>
+</body>
+</html>
